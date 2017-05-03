@@ -1,4 +1,4 @@
-import { send, connect, disconnect } from './message_sender';
+import { send, connect } from './message_sender';
 
 const app = require('express')();
 const server = require('http').Server(app);
@@ -12,13 +12,8 @@ function tick() {
   send({ message: `tick ${count}` });
 }
 
-function onDisconnect(socket) {
-  disconnect(socket);
-}
-
 function onConnect(socket) {
   connect(socket);
-  socket.on('disconnect', () => onDisconnect(socket));
 }
 
 app.get('/', (req, res) => {

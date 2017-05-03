@@ -11,7 +11,10 @@ describe('message sender', () => {
   });
 
   it('sends empty backlog when client connects', () => {
-    const client = { emit: () => { } };
+    const client = {
+      emit: () => { },
+      on: () => { },
+    };
     const emit = sinon.stub(client, 'emit');
 
     connect(client);
@@ -20,7 +23,10 @@ describe('message sender', () => {
   });
 
   it('sends multiple messages to already connected clients', () => {
-    const client = { emit: () => { } };
+    const client = {
+      emit: () => { },
+      on: () => { },
+    };
     const emit = sinon.stub(client, 'emit');
     const message1 = { message: 'hello 2' };
     const message2 = { message: 'goodbye 2' };
@@ -33,7 +39,10 @@ describe('message sender', () => {
   });
 
   it('does not send messages to disconnected clients', () => {
-    const client = { emit: () => { } };
+    const client = {
+      emit: () => { },
+      on: () => { },
+    };
     const emit = sinon.stub(client, 'emit');
     const message1 = { message: 'hello' };
     const message2 = { message: 'goodbye' };
@@ -47,7 +56,10 @@ describe('message sender', () => {
   });
 
   it('sends existing backlog when client connects', () => {
-    const client = { emit: () => { } };
+    const client = {
+      emit: () => { },
+      on: () => { },
+    };
     const emit = sinon.stub(client, 'emit');
     const message1 = { message: 'hello' };
     const message2 = { message: 'goodbye' };
@@ -57,5 +69,20 @@ describe('message sender', () => {
     connect(client);
 
     assert(emit.calledWith('backlog', { events: [message1, message2] }));
+  });
+
+  it('on connect registers disconnect handler', () => {
+    const client = {
+      emit: () => { },
+      on: () => { },
+    };
+    const on = sinon.stub(client, 'on');
+
+    connect(client);
+
+    assert(on.calledOnce);
+    assert(on.getCall(0).args[0].should.equal('disconnect'));
+
+    const disconnectHandler = on.getCall(0).args[1];
   });
 });
