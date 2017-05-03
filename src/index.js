@@ -12,15 +12,11 @@ function tick() {
   send({ message: `tick ${count}` });
 }
 
-function onConnect(socket) {
-  connect(socket);
-}
-
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
 });
 
-io.on('connection', onConnect);
+io.on('connection', connect);
 
 console.log('Starting server on port 8000');
 setInterval(tick, 5000);
