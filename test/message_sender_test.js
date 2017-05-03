@@ -1,11 +1,15 @@
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { connect, send, disconnect } from '../src/message_sender';
+import { connect, send, disconnect, reset } from '../src/message_sender';
 
 should();
 
 describe('message sender', () => {
+  beforeEach(() => {
+    reset();
+  });
+
   it('sends empty backlog when client connects', () => {
     const client = { emit: () => { } };
     const emit = sinon.stub(client, 'emit');
@@ -18,8 +22,8 @@ describe('message sender', () => {
   it('sends multiple messages to already connected clients', () => {
     const client = { emit: () => { } };
     const emit = sinon.stub(client, 'emit');
-    const message1 = { message: 'hello' };
-    const message2 = { message: 'goodbye' };
+    const message1 = { message: 'hello 2' };
+    const message2 = { message: 'goodbye 2' };
 
     connect(client);
     send([message1, message2]);
@@ -40,5 +44,18 @@ describe('message sender', () => {
 
     assert(emit.calledWith('backlog', { events: [] }));
     assert(emit.neverCalledWith('events', { events: [message1, message2] }));
+  });
+
+  it('sends existing backlog when client connects', () => {
+    const client = { emit: () => { } };
+    const emit = sinon.stub(client, 'emit');
+    const message1 = { message: 'hello' };
+    const message2 = { message: 'goodbye' };
+
+    send([message1, message2]);
+
+    connect(client);
+
+    assert(emit.calledWith('backlog', { events: [message1, message2] }));
   });
 });
