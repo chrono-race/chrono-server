@@ -1,26 +1,24 @@
+import { send, connect, disconnect } from './message_sender';
+
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-let listeners = [];
+let count = 0;
 
 function tick() {
-  console.log('tick!');
-  listeners.forEach((socket) => {
-    socket.emit('announcements', { message: 'tick!' });
-  });
+  count += 1;
+  console.log(`tick ${count}`);
+  send({ message: `tick ${count}` });
 }
 
 function onDisconnect(socket) {
-  listeners = listeners.filter(l => l !== socket);
-  console.log(`A user has left, now ${listeners.length}`);
+  disconnect(socket);
 }
 
 function onConnect(socket) {
-  listeners.push(socket);
-  console.log(`A new user has joined, now ${listeners.length}`);
+  connect(socket);
   socket.on('disconnect', () => onDisconnect(socket));
-  socket.emit('announcements', { message: 'A new user has joined!' });
 }
 
 app.get('/', (req, res) => {
@@ -30,5 +28,5 @@ app.get('/', (req, res) => {
 io.on('connection', onConnect);
 
 console.log('Starting server on port 8000');
-setInterval(tick, 1000);
+setInterval(tick, 5000);
 server.listen(8000);

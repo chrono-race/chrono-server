@@ -3,9 +3,12 @@
     <script src="/socket.io/socket.io.js"></script>  
     <script>  
         var socket = io.connect('/');
-        socket.on('announcements', function(data) {
-          console.log('Got announcement:', data.message);
+        socket.on('backlog', function(data) {
+          console.log('Got backlog:', data.events);
         });
+        socket.on('events', function(data) {
+          console.log('Got events:', data.events);
+        })
     </script> 
   </head>
   <body>
