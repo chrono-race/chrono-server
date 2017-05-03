@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { assert, should } from 'chai';
 import sinon from 'sinon';
-import { connect, send } from '../src/message_sender';
+import { connect, send, disconnect } from '../src/message_sender';
 
 should();
 
@@ -26,5 +26,19 @@ describe('message sender', () => {
 
     assert(emit.calledWith('backlog', { events: [] }));
     assert(emit.calledWith('events', { events: [message1, message2] }));
+  });
+
+  it('does not send messages to disconnected clients', () => {
+    const client = { emit: () => { } };
+    const emit = sinon.stub(client, 'emit');
+    const message1 = { message: 'hello' };
+    const message2 = { message: 'goodbye' };
+
+    connect(client);
+    disconnect(client);
+    send([message1, message2]);
+
+    assert(emit.calledWith('backlog', { events: [] }));
+    assert(emit.neverCalledWith('events', { events: [message1, message2] }));
   });
 });
