@@ -82,7 +82,5 @@ describe('message sender', () => {
 
     assert(on.calledOnce);
     assert(on.getCall(0).args[0].should.equal('disconnect'));
-
-    const disconnectHandler = on.getCall(0).args[1];
   });
 });
