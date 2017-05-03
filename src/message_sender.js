@@ -6,6 +6,6 @@ export const connect = (socket) => {
   socket.emit('backlog', { events: [] });
 };
 
-export const send = (message) => {
-  listeners.forEach(socket => socket.emit('events', { events: [message] }));
+export const send = (messages) => {
+  listeners.forEach(socket => socket.emit('events', { events: messages }));
 };

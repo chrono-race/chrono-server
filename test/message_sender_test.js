@@ -15,15 +15,16 @@ describe('message sender', () => {
     assert(emit.calledWith('backlog', { events: [] }));
   });
 
-  it('sends a message to already connected clients', () => {
+  it('sends multiple messages to already connected clients', () => {
     const client = { emit: () => { } };
     const emit = sinon.stub(client, 'emit');
-    const message = { message: 'hello' };
+    const message1 = { message: 'hello' };
+    const message2 = { message: 'goodbye' };
 
     connect(client);
-    send(message);
+    send([message1, message2]);
 
     assert(emit.calledWith('backlog', { events: [] }));
-    assert(emit.calledWith('events', { events: [message] }));
+    assert(emit.calledWith('events', { events: [message1, message2] }));
   });
 });
