@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import fetcher from '../../src/data_source/network/fetcher';
 import dataPoller from '../../src/data_source/poller';
 import jsonExtractor from '../../src/data_source/network/json_extractor';
+import lapMessageGenerator from '../../src/data_source/lap_message_generator';
 import { initialise } from '../../src/data_source/data_downloader';
 
 should();
@@ -13,20 +14,23 @@ describe('data downloader', () => {
     let fetch;
     let process;
     let start;
+    let startSession;
 
     before(() => {
       fetch = sinon.stub(fetcher, 'fetch');
       process = sinon.stub(jsonExtractor, 'process');
       start = sinon.stub(dataPoller, 'start');
+      startSession = sinon.stub(lapMessageGenerator, 'startSession');
     });
 
     after(() => {
       fetch.restore();
       process.restore();
       start.restore();
+      startSession.restore();
     });
 
-    it('fetches all.js, processes, creates data poller', (done) => {
+    it('fetches all.js, processes & passes to lap message generator, creates data poller', (done) => {
       const baseUrl = 'http://localhost:8080/';
       const archiver = { };
       const fileContents = 'file contents';
@@ -36,16 +40,18 @@ describe('data downloader', () => {
           T: 123456123456,
         },
       };
+      const eventPublisher = sinon.stub();
 
       process.withArgs(fileContents).returns(processedData);
 
       fetch.withArgs(baseUrl, 'all.js', archiver).returns(Promise.resolve(fileContents));
 
-      initialise(baseUrl, archiver)
+      initialise(baseUrl, archiver, eventPublisher)
         .then(() => {
           assert(fetch.calledWith(baseUrl, 'all.js', archiver));
           assert(process.calledWith(fileContents));
           assert(start.calledWith(baseUrl, archiver, startTime));
+          assert(startSession.calledWith(processedData, eventPublisher));
           done();
         })
         .catch(done);
