@@ -30,7 +30,7 @@ describe('data downloader', () => {
       startSession.restore();
     });
 
-    it('fetches all.js, processes & passes to lap message generator, creates data poller', (done) => {
+    it('fetches all.js, processes, starts session, creates data poller', (done) => {
       const baseUrl = 'http://localhost:8080/';
       const archiver = { };
       const fileContents = 'file contents';
@@ -41,16 +41,18 @@ describe('data downloader', () => {
         },
       };
       const eventPublisher = sinon.stub();
+      const session = { session: true };
 
       process.withArgs(fileContents).returns(processedData);
 
       fetch.withArgs(baseUrl, 'all.js', archiver).returns(Promise.resolve(fileContents));
+      startSession.withArgs(processedData, eventPublisher).returns(session);
 
       initialise(baseUrl, archiver, eventPublisher)
         .then(() => {
           assert(fetch.calledWith(baseUrl, 'all.js', archiver));
           assert(process.calledWith(fileContents));
-          assert(start.calledWith(baseUrl, archiver, startTime));
+          assert(start.calledWith(baseUrl, archiver, startTime, session));
           assert(startSession.calledWith(processedData, eventPublisher));
           done();
         })

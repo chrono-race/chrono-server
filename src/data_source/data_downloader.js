@@ -9,7 +9,7 @@ function initialise(baseUrl, archiver, eventPublisher) {
       .then((d) => {
         const data = jsonExtractor.process(d);
         const session = lapMessageGenerator.startSession(data, eventPublisher);
-        dataPoller.start(baseUrl, archiver, Math.round(data.init.T / 1000000));
+        dataPoller.start(baseUrl, archiver, Math.round(data.init.T / 1000000), session);
         fulfill();
       })
       .catch(reject);
