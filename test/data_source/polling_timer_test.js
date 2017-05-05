@@ -3,7 +3,7 @@ import { assert, should } from 'chai';
 import sinon from 'sinon';
 import winston from 'winston';
 import currFetcher from '../../src/data_source/network/curr_fetcher';
-import dataPoller from '../../src/data_source/poller';
+import dataPoller from '../../src/data_source/polling_timer';
 
 should();
 

@@ -2,7 +2,7 @@ import { describe, it, before, after } from 'mocha';
 import { assert, should } from 'chai';
 import sinon from 'sinon';
 import fetcher from '../../src/data_source/network/fetcher';
-import dataPoller from '../../src/data_source/poller';
+import dataPoller from '../../src/data_source/polling_timer';
 import jsonExtractor from '../../src/data_source/network/json_extractor';
 import lapMessageGenerator from '../../src/data_source/lap_message_generator';
 import { initialise } from '../../src/data_source/data_downloader';

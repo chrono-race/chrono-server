@@ -1,6 +1,6 @@
 import fetcher from './network/fetcher';
 import jsonExtractor from './network/json_extractor';
-import dataPoller from './poller';
+import dataPoller from './polling_timer';
 import lapMessageGenerator from './lap_message_generator';
 
 function initialise(baseUrl, archiver, eventPublisher) {
