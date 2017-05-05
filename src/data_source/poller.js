@@ -1,7 +1,7 @@
 import currFetcher from './network/curr_fetcher';
 import jsonExtractor from './network/json_extractor';
 
-function create(baseUrl, archiver, startTime) {
+function create(baseUrl, archiver, startTime, session) {
   let time = startTime;
   return {
     poll: () => {
@@ -9,6 +9,7 @@ function create(baseUrl, archiver, startTime) {
       return currFetcher.fetch(baseUrl, time, archiver)
         .then((d) => {
           const cur = jsonExtractor.process(d);
+          session.update(cur);
         });
     },
   };

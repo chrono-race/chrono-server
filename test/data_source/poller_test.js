@@ -21,15 +21,19 @@ describe('poller', () => {
     process.restore();
   });
 
-  it('fetches current, extracts json', (done) => {
+  it('fetches current, extracts json & generates lap messages', (done) => {
     const baseUrl = 'http://localhost:8080';
     const startTime = 1000;
     const archiver = { };
     const currentResponse = 'current response';
+    const session = { update: () => { } };
+    const updateSession = sinon.stub(session, 'update');
+    const currentJson = { current: 'json' };
 
     fetchCurrent.returns(Promise.resolve(currentResponse));
+    process.returns(currentJson);
 
-    const p = poller.create(baseUrl, archiver, startTime);
+    const p = poller.create(baseUrl, archiver, startTime, session);
 
     p.poll()
       .then(() => {
@@ -37,6 +41,9 @@ describe('poller', () => {
         assert(fetchCurrent.calledWith(baseUrl, startTime + 1, archiver));
 
         assert(process.calledOnce);
+
+        assert(updateSession.calledOnce);
+        assert(updateSession.calledWith(currentJson));
 
         done();
       })
