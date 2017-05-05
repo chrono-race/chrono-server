@@ -29,4 +29,22 @@ describe('poller', () => {
     assert(fetchCurrent.calledOnce);
     assert(fetchCurrent.calledWith(baseUrl, startTime + 1, archiver));
   });
+
+  it('increments time each call', () => {
+    const baseUrl = 'http://localhost:8080';
+    const startTime = 1000;
+    const archiver = { };
+
+    const p = poller.create(baseUrl, archiver, startTime);
+
+    p.poll();
+
+    assert(fetchCurrent.calledOnce);
+    assert(fetchCurrent.calledWith(baseUrl, startTime + 1, archiver));
+
+    p.poll();
+
+    assert(fetchCurrent.calledTwice);
+    assert(fetchCurrent.calledWith(baseUrl, startTime + 2, archiver));
+  });
 });
