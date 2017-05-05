@@ -9,18 +9,10 @@ const io = require('socket.io')(server);
 
 const baseUrl = 'http://localhost:3000/';
 
-let count = 0;
-
-function tick() {
-  count += 1;
-  console.log(`tick ${count}`);
-  send({ message: `tick ${count}` });
-}
-
 function onEvents(events) {
-  events.forEach((event) => {
-    console.log(`${event.driver} lap ${event.lapNumber}`);
-    send({ event });
+  events.forEach((msg) => {
+    console.log(`${msg.driver} lap ${msg.lapNumber}`);
+    send({ msg });
   });
 }
 
@@ -40,5 +32,4 @@ app.get('/', (req, res) => {
 io.on('connection', connect);
 
 console.log('Starting server on port 8000');
-setInterval(tick, 5000);
 server.listen(8000);
