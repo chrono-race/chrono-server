@@ -1,11 +1,15 @@
 import currFetcher from './network/curr_fetcher';
+import jsonExtractor from './network/json_extractor';
 
 function create(baseUrl, archiver, startTime) {
   let time = startTime;
   return {
     poll: () => {
       time += 1;
-      currFetcher.fetch(baseUrl, time, archiver);
+      return currFetcher.fetch(baseUrl, time, archiver)
+        .then((d) => {
+          const cur = jsonExtractor.process(d);
+        });
     },
   };
 }
