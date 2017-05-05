@@ -30,13 +30,14 @@ describe('data poller', () => {
       const archiver = { };
       const startTime = 123456;
       const p = { poll: () => { } };
+      const session = { };
 
       createPoller.returns(p);
 
-      dataPoller.start(baseUrl, archiver, startTime);
+      dataPoller.start(baseUrl, archiver, startTime, session);
 
       assert(createPoller.calledOnce);
-      assert(createPoller.calledWith(baseUrl, archiver, startTime));
+      assert(createPoller.calledWith(baseUrl, archiver, startTime, session));
     });
 
     it('should poll once a second', () => {
