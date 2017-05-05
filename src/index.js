@@ -17,11 +17,18 @@ function tick() {
   send({ message: `tick ${count}` });
 }
 
+function onEvents(events) {
+  events.forEach((event) => {
+    console.log(`${event.driver} lap ${event.lapNumber}`);
+    send({ event });
+  });
+}
+
 winston.add(winston.transports.File, { filename: 'logs/timing.log' });
 winston.info('timing process started');
 
 const a = archiver();
-dataDownloader.initialise(baseUrl, a)
+dataDownloader.initialise(baseUrl, a, onEvents)
   .then(() => {
     winston.info('timing process initialised');
   });
