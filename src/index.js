@@ -7,7 +7,7 @@ const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const baseUrl = 'http://localhost:3000/';
+const baseUrl = 'http://localhost:9000/';
 
 function onEvents(events) {
   events.forEach((msg) => {
