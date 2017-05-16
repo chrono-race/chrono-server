@@ -11,8 +11,7 @@ const baseUrl = 'http://localhost:9000/';
 
 function onEvents(events) {
   events.forEach((msg) => {
-    console.log(`${msg.driver} lap ${msg.lapNumber}`);
-    send({ msg });
+    send(msg);
   });
 }
 
