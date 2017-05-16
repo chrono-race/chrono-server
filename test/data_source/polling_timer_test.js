@@ -7,7 +7,7 @@ import poller from '../../src/data_source/poller';
 
 should();
 
-describe('data poller', () => {
+describe('polling timer', () => {
   describe('start', () => {
     let clock;
     let info;
@@ -34,7 +34,8 @@ describe('data poller', () => {
 
       createPoller.returns(p);
 
-      dataPoller.start(baseUrl, archiver, startTime, session);
+      const handle = dataPoller.start(baseUrl, archiver, startTime, session);
+      clearInterval(handle);
 
       assert(createPoller.calledOnce);
       assert(createPoller.calledWith(baseUrl, archiver, startTime, session));
@@ -48,8 +49,9 @@ describe('data poller', () => {
       const poll = sinon.stub(p, 'poll');
 
       createPoller.returns(p);
+      poll.returns(Promise.resolve());
 
-      dataPoller.start(baseUrl, archiver, startTime);
+      const handle = dataPoller.start(baseUrl, archiver, startTime);
 
       clock.tick(1000);
 
@@ -58,6 +60,8 @@ describe('data poller', () => {
       clock.tick(1000);
 
       assert(poll.calledTwice);
+
+      clearInterval(handle);
     });
   });
 });
