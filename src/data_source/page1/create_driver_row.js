@@ -11,13 +11,25 @@ function getLapNumber(driver, lastGaps, lastPage1) {
   return lapsCompleted + 1;
 }
 
+function getLapTime(lapTime, lapNumber) {
+  if (lapNumber === 1) {
+    return NaN;
+  }
+  return lapTime;
+}
+
 function createDriverRow(driver, lastGaps, lastPage1) {
-  return Object.assign(
+  const lapNumber = getLapNumber(driver, lastGaps, lastPage1);
+  const r = Object.assign(
     {
       driver,
-      lapNumber: getLapNumber(driver, lastGaps, lastPage1),
+      lapNumber,
     },
-    lastPage1[driver]);
+    lastPage1[driver],
+    {
+      lapTime: getLapTime(lastPage1[driver].lapTime, lapNumber),
+    });
+  return r;
 }
 
 module.exports = { createDriverRow };

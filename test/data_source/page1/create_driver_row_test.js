@@ -85,4 +85,48 @@ describe('create driver row', () => {
 
     assert(row.lapNumber.should.equal(4));
   });
+
+  it('erases lap time for lap 1', () => {
+    const driver = 'VAN';
+    const lastGaps = {
+      VAN: {
+        lapsCompleted: 0.8,
+      },
+    };
+    const lastPage1 = {
+      VAN: {
+        s1Time: 12.345,
+        s2Time: 34.456,
+        s3Time: NaN,
+        lapTime: 0,
+      },
+    };
+
+    const row = createDriverRow(driver, lastGaps, lastPage1);
+
+    assert(row.lapNumber.should.equal(1));
+    assert(row.lapTime.should.be.NaN);
+  });
+
+  it('leaves lap time for lap 2 unchanged', () => {
+    const driver = 'VAN';
+    const lastGaps = {
+      VAN: {
+        lapsCompleted: 1.8,
+      },
+    };
+    const lastPage1 = {
+      VAN: {
+        s1Time: 12.345,
+        s2Time: 34.456,
+        s3Time: NaN,
+        lapTime: 123.456,
+      },
+    };
+
+    const row = createDriverRow(driver, lastGaps, lastPage1);
+
+    assert(row.lapNumber.should.equal(2));
+    assert(row.lapTime.should.equal(123.456));
+  });
 });
