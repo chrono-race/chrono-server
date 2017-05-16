@@ -36,58 +36,48 @@ describe('archiver', () => {
   describe('session', () => {
     describe('logFile', () => {
       let format;
-      let createWriteStream;
+      let writeFileSync;
       let error;
 
       beforeEach(() => {
         format = sinon.stub(date, 'format');
-        createWriteStream = sinon.stub(fs, 'createWriteStream');
+        writeFileSync = sinon.stub(fs, 'writeFileSync');
         error = sinon.stub(winston, 'error');
       });
 
       afterEach(() => {
         format.restore();
-        createWriteStream.restore();
+        writeFileSync.restore();
         error.restore();
       });
 
       it('writes a file to disk', () => {
-        const stream = { write: () => { }, close: () => { } };
-        const write = sinon.stub(stream, 'write');
-        const close = sinon.stub(stream, 'close');
         const fileContents = 'file contents';
 
         format.returns('2017-04-11_1800');
-        createWriteStream.withArgs('sessions/2017-04-11_1800/file.js').returns(stream);
 
         const session = archiver();
         session.logFile('file.js', fileContents);
 
-        assert(write.calledWith(fileContents));
-        assert(close.calledOnce);
+        assert(writeFileSync.calledWith('sessions/2017-04-11_1800/file.js', fileContents));
       });
 
       it('replaces illegal characters in filename', () => {
-        const stream = { write: () => { }, close: () => { } };
-        const write = sinon.stub(stream, 'write');
-        const close = sinon.stub(stream, 'close');
         const fileContents = 'file contents';
 
         format.returns('2017-04-11_1800');
-        createWriteStream.withArgs('sessions/2017-04-11_1800/file.js_1234').returns(stream);
 
         const session = archiver();
         session.logFile('file.js?1234', fileContents);
 
-        assert(write.calledWith(fileContents));
-        assert(close.calledOnce);
+        assert(writeFileSync.calledWith('sessions/2017-04-11_1800/file.js_1234', fileContents));
       });
 
       it('logs in case of error writing file', () => {
         const fileContents = 'file contents';
 
         format.returns('2017-04-11_1800');
-        createWriteStream.withArgs('sessions/2017-04-11_1800/file.js_1234').throws('file write error');
+        writeFileSync.withArgs('sessions/2017-04-11_1800/file.js_1234', fileContents).throws('file write error');
 
         const session = archiver();
         session.logFile('file.js?1234', fileContents);

@@ -13,9 +13,7 @@ export default () => {
     logFile: (fileName, fileContents) => {
       const name = fileName.replace('?', '_');
       try {
-        const f = fs.createWriteStream(`${path}/${name}`);
-        f.write(fileContents);
-        f.close();
+        fs.writeFileSync(`${path}/${name}`, fileContents);
       } catch (e) {
         winston.error(`Error writing file ${path}/${name}: ${e}`);
       }
