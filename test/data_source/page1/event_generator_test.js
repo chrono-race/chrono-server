@@ -95,7 +95,7 @@ describe('page 1 event generator', () => {
         timestamp: 123456,
       },
       HAM: {
-        lapTime: 101.12,
+        lapTime: NaN,
         position: 1,
         s1Time: 23.001,
         s2Time: NaN,
@@ -123,7 +123,7 @@ describe('page 1 event generator', () => {
 
     assert(events[1].driver.should.equal('HAM'));
     assert(events[1].lapNumber.should.equal(4));
-    assert(events[1].lapTime.should.equal(101.12));
+    assert(events[1].lapTime.should.be.NaN);
     assert(events[1].position.should.equal(1));
     assert(events[1].s1Time.should.equal(23.001));
     assert(events[1].s2Time.should.be.NaN);

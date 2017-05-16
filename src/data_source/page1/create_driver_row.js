@@ -11,11 +11,11 @@ function getLapNumber(driver, lastGaps, lastPage1) {
   return lapsCompleted + 1;
 }
 
-function getLapTime(lapTime, lapNumber) {
-  if (lapNumber === 1) {
+function getLapTime(driver, lapNumber) {
+  if (lapNumber === 1 || !isInSector1(driver)) {
     return NaN;
   }
-  return lapTime;
+  return driver.lapTime;
 }
 
 function createDriverRow(driver, lastGaps, lastPage1) {
@@ -27,7 +27,7 @@ function createDriverRow(driver, lastGaps, lastPage1) {
     },
     lastPage1[driver],
     {
-      lapTime: getLapTime(lastPage1[driver].lapTime, lapNumber),
+      lapTime: getLapTime(lastPage1[driver], lapNumber),
     });
   return r;
 }
