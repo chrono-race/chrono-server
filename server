@@ -1,0 +1,19 @@
+#!/bin/bash
+
+case $1 in
+  start)
+    echo Starting server...
+    start-stop-daemon --start --pidfile server.pid
+    exit
+  ;;
+  stop)
+    echo Stopping server...
+    start-stop-daemon --stop --pidfile server.pid
+    exit
+  ;;
+  *)
+    echo [ERROR] Command not recognised
+    exit
+  ;;
+esac
+
