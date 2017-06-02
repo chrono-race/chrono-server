@@ -3,7 +3,7 @@
 case $1 in
   start)
     echo Starting server...
-    start-stop-daemon --start --pidfile server.pid
+    start-stop-daemon --start --pidfile server.pid --background --exec /usr/bin/npm -- --prefix /home/ubuntu/deploy run server
     exit
   ;;
   stop)
