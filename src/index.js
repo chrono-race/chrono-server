@@ -8,7 +8,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 // const baseUrl = 'http://localhost:9000/';
-const baseUrl = 'http://52.213.234.42:9000/';
+const baseUrl = 'http://52.214.13.236:9000/';
 
 function onEvents(events) {
   events.forEach((msg) => {
