@@ -6,7 +6,9 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --reporter spec test/**/*test.js",
     "lint": "eslint **/*.js",
-    "server": "babel-node src/index.js"
+    "server": "babel-node src/index.js",
+    "start": "forever start -c \"node -r babel-register\" --minUptime 1000 --spinSleepTime 1000 src/index.js",
+    "stop": "forever stop src/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +22,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
+    "forever": "^0.15.3",
     "mocha": "^3.3.0",
     "sinon": "^2.2.0"
   },
