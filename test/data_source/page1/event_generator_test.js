@@ -330,7 +330,9 @@ describe('page 1 event generator', () => {
       },
     };
 
-    isChanged.withArgs(initialPage1.VAN, sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
+    isChanged.withArgs(
+      sinon.match({ driver: 'VAN', position: 4 }),
+      sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
     generator.updateWith(gaps, initialPage1);
@@ -378,7 +380,9 @@ describe('page 1 event generator', () => {
       },
     };
 
-    isChanged.withArgs(initialPage1.VAN, sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
+    isChanged.withArgs(
+      sinon.match({ driver: 'VAN', position: 4 }),
+      sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
     generator.updateWith(gaps, initialPage1);
@@ -426,7 +430,9 @@ describe('page 1 event generator', () => {
       },
     };
 
-    isChanged.withArgs(initialPage1.VAN, sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
+    isChanged.withArgs(
+      sinon.match({ driver: 'VAN', position: 4 }),
+      sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
     generator.updateWith(gaps, initialPage1);
@@ -479,7 +485,9 @@ describe('page 1 event generator', () => {
       },
     };
 
-    isChanged.withArgs(initialPage1.VAN, sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
+    isChanged.withArgs(
+      sinon.match({ driver: 'VAN', position: 4 }),
+      sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
     generator.updateWith(initialGaps, initialPage1);
@@ -494,5 +502,33 @@ describe('page 1 event generator', () => {
     assert(events[0].timestamp.should.equal(123457));
 
     assert(isChanged.calledOnce);
+  });
+});
+
+describe('page 1 event generator (integrated with isChanged)', () => {
+  it('uses last generated row to detect changes', () => {
+    const gaps = {
+      VAN: {
+        lapsCompleted: 0.1,
+      },
+    };
+    const page1 = {
+      VAN: {
+        lapTime: 0,
+        position: 1,
+        s1Time: NaN,
+        s2Time: NaN,
+        s3Time: NaN,
+        gap: NaN,
+        interval: NaN,
+        timestamp: NaN,
+      },
+    };
+
+    const generator = page1EventGenerator.initialise();
+    generator.updateWith(gaps, page1);
+    const events = generator.updateWith(gaps, page1);
+
+    assert(events.length.should.equal(0));
   });
 });
