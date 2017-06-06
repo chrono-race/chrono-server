@@ -5,10 +5,9 @@ import { createDriverRow } from './create_driver_row';
 function initialise() {
   let lastGaps;
   let lastPage1;
-  let prevRows = null;
+  let lastRows = null;
   return {
     updateWith: (gaps, page1) => {
-      const isInitialUpdate = lastPage1 === undefined || lastGaps === undefined;
       if (gaps !== undefined && gaps !== null) {
         lastGaps = gaps;
       }
@@ -27,13 +26,14 @@ function initialise() {
         winston.warn('Gaps received but no page 1 received yet');
         return [];
       }
+      const prevRows = lastRows;
       const driverRows = Object.keys(lastPage1)
         .map(driver => createDriverRow(driver, lastGaps, lastPage1));
-      prevRows = driverRows.reduce((m, o) => {
+      lastRows = driverRows.reduce((m, o) => {
         m[o.driver] = o; // eslint-disable-line
         return m;
       }, {});
-      if (isInitialUpdate) {
+      if (prevRows === null) {
         return driverRows;
       }
 

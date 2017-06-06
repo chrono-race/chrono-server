@@ -505,8 +505,39 @@ describe('page 1 event generator', () => {
   });
 });
 
+// arguably these tests should replace the ones above
+// they cover the same cases but don't mock isChanged detection
+// to more accurately test production behaviour
 describe('page 1 event generator (integrated with isChanged)', () => {
-  it('uses last generated row to detect changes', () => {
+  it('emits initial event', () => {
+    const gaps = {
+      VAN: {
+        lapsCompleted: 0.1,
+      },
+    };
+    const page1 = {
+      VAN: {
+        lapTime: 0,
+        position: 1,
+        s1Time: NaN,
+        s2Time: 12.345,
+        s3Time: NaN,
+        gap: NaN,
+        interval: NaN,
+        timestamp: NaN,
+      },
+    };
+
+    const generator = page1EventGenerator.initialise();
+    const events = generator.updateWith(gaps, page1);
+
+    assert(events.length.should.equal(1));
+    assert(events[0].driver.should.equal('VAN'));
+    assert(events[0].lapNumber.should.equal(1));
+    assert(events[0].s2Time.should.equal(12.345));
+  });
+
+  it('does not generate change when lapTime in page1 is 0', () => {
     const gaps = {
       VAN: {
         lapsCompleted: 0.1,
@@ -530,5 +561,46 @@ describe('page 1 event generator (integrated with isChanged)', () => {
     const events = generator.updateWith(gaps, page1);
 
     assert(events.length.should.equal(0));
+  });
+
+  it('generates event when s2Time changes', () => {
+    const gaps = {
+      VAN: {
+        lapsCompleted: 0.1,
+      },
+    };
+    const originalPage1 = {
+      VAN: {
+        lapTime: 0,
+        position: 1,
+        s1Time: NaN,
+        s2Time: NaN,
+        s3Time: NaN,
+        gap: NaN,
+        interval: NaN,
+        timestamp: NaN,
+      },
+    };
+    const updatedPage1 = {
+      VAN: {
+        lapTime: 0,
+        position: 1,
+        s1Time: NaN,
+        s2Time: 12.345,
+        s3Time: NaN,
+        gap: NaN,
+        interval: NaN,
+        timestamp: NaN,
+      },
+    };
+
+    const generator = page1EventGenerator.initialise();
+    generator.updateWith(gaps, originalPage1);
+    const events = generator.updateWith(gaps, updatedPage1);
+
+    assert(events.length.should.equal(1));
+    assert(events[0].driver.should.equal('VAN'));
+    assert(events[0].lapNumber.should.equal(1));
+    assert(events[0].s2Time.should.equal(12.345));
   });
 });
