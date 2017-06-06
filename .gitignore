@@ -2,3 +2,4 @@ node_modules
 sessions
 logs
 npm-debug.log
+server.json

@@ -1,4 +1,5 @@
 import winston from 'winston';
+import fs from 'fs';
 import { send, connect } from './message_sender';
 import dataDownloader from './data_source/data_downloader';
 import archiver from './data_source/archiver';
@@ -7,8 +8,9 @@ const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-// const baseUrl = 'http://localhost:9000/';
-const baseUrl = 'http://52.214.13.236:9000/';
+const config = JSON.parse(fs.readFileSync('server.json'));
+
+const baseUrl = config.baseUrl;
 
 function onEvents(events) {
   events.forEach((msg) => {
