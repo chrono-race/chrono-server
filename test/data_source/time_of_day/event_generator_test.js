@@ -13,4 +13,23 @@ describe('time of day event generator', () => {
     assert(events.length.should.equal(1));
     assert(events[0].time.should.equal(1000));
   });
+
+  it('generates an event when time of day changes', () => {
+    const eventGenerator = eventGeneratorFactory.initialise();
+
+    eventGenerator.generateFrom({ time: 1000 });
+    const events = eventGenerator.generateFrom({ time: 1001 });
+
+    assert(events.length.should.equal(1));
+    assert(events[0].time.should.equal(1001));
+  });
+
+  it('does not generate an event when time of day does not change', () => {
+    const eventGenerator = eventGeneratorFactory.initialise();
+
+    eventGenerator.generateFrom({ time: 1000 });
+    const events = eventGenerator.generateFrom({ time: 1000 });
+
+    assert(events.length.should.equal(0));
+  });
 });
