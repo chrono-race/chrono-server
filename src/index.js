@@ -13,9 +13,9 @@ const config = JSON.parse(fs.readFileSync('server.json'));
 const baseUrl = config.baseUrl;
 
 function onEvents(events) {
-  events.forEach((msg) => {
-    send(msg);
-  });
+  if (events.length > 0) {
+    send(events);
+  }
 }
 
 winston.add(winston.transports.File, { filename: 'logs/timing.log' });
