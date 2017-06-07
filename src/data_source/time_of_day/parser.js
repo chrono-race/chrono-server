@@ -1,7 +1,7 @@
 
 function parse(input) {
   return {
-    time: Math.round(input.init.T / 1000000),
+    time: Math.round(input.sq.T / 1000000),
   };
 }
 

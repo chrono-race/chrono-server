@@ -7,7 +7,7 @@ should();
 describe('time of day parser', () => {
   it('should extract time of day', () => {
     const input = {
-      init: {
+      sq: {
         T: 11534623000000,
       },
     };
