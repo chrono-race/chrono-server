@@ -5,7 +5,7 @@ import driverParser from '../../src/data_source/page1/driver_parser';
 import eventGenerator from '../../src/data_source/page1/event_generator';
 import gapsParser from '../../src/data_source/page1/gaps_parser';
 import page1Parser from '../../src/data_source/page1/parser';
-import { startSession } from '../../src/data_source/lap_message_generator';
+import { startSession } from '../../src/data_source/aggregate_event_generator';
 
 should();
 
