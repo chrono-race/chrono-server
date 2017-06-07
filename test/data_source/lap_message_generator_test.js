@@ -26,7 +26,7 @@ describe('lap message generator', () => {
   it('extracts drivers and initialises event generator', () => {
     const allJson = { all: 'json' };
     const drivers = [{ driver: 'VAN' }];
-    const generator = { updateWith: () => { } };
+    const generator = { generateFrom: () => { } };
 
     extractDrivers.withArgs(allJson).returns(drivers);
     initialise.returns(generator);
@@ -54,13 +54,13 @@ describe('lap message generator', () => {
     it('parses page 1 gaps & drivers, generates events then publishes', () => {
       const allJson = { all: 'json' };
       const drivers = [{ driver: 'VAN' }];
-      const generator = { updateWith: () => { } };
+      const generator = { generateFrom: () => { } };
       const curJson = { current: 'json' };
       const gaps = { gaps: [] };
       const page1 = { page: 'one' };
       const events = [{ event: 1 }];
 
-      const updateGenerator = sinon.stub(generator, 'updateWith');
+      const updateGenerator = sinon.stub(generator, 'generateFrom');
       const publisher = sinon.stub();
 
       extractDrivers.withArgs(allJson).returns(drivers);

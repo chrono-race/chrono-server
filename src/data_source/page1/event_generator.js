@@ -7,7 +7,7 @@ function initialise() {
   let lastPage1;
   let lastRows = null;
   return {
-    updateWith: (gaps, page1) => {
+    generateFrom: (gaps, page1) => {
       if (gaps !== undefined && gaps !== null) {
         lastGaps = gaps;
       }

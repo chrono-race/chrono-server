@@ -11,7 +11,7 @@ function startSession(allJson, eventPublisher) {
       const gaps = gapsParser.parse(drivers, curJson);
       const page1 = page1Parser.parse(drivers, curJson);
 
-      const events = page1EventGenerator.updateWith(gaps, page1);
+      const events = page1EventGenerator.generateFrom(gaps, page1);
       eventPublisher(events);
     },
   };
