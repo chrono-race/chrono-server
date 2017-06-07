@@ -5,7 +5,7 @@ import { createDriverRow } from '../../../src/data_source/page1/create_driver_ro
 should();
 
 describe('create driver row', () => {
-  it('copies page 1 and adds driver', () => {
+  it('copies page 1 and adds driver & message type', () => {
     const driver = 'VAN';
     const lastGaps = {
       VAN: {
@@ -24,6 +24,7 @@ describe('create driver row', () => {
     assert(row.s1Time.should.equal(12.345));
     assert(row.s2Time.should.equal(34.456));
     assert(row.driver.should.equal('VAN'));
+    assert(row.type.should.equal('lap'));
   });
 
   it('assigns lap number in sector 1', () => {

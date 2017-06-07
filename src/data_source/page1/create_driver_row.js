@@ -24,6 +24,7 @@ function createDriverRow(driver, lastGaps, lastPage1) {
     {
       driver,
       lapNumber,
+      type: 'lap',
     },
     lastPage1[driver],
     {
