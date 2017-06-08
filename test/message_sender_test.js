@@ -28,8 +28,8 @@ describe('message sender', () => {
       on: () => { },
     };
     const emit = sinon.stub(client, 'emit');
-    const message1 = { message: 'hello 2' };
-    const message2 = { message: 'goodbye 2' };
+    const message1 = { type: 'lap', message: 'hello 2' };
+    const message2 = { type: 'time', message: 'goodbye 2' };
 
     connect(client);
     send([message1, message2]);
@@ -69,6 +69,22 @@ describe('message sender', () => {
     connect(client);
 
     assert(emit.calledWith('backlog', { events: [message1, message2] }));
+  });
+
+  it('backlog does not include time messages', () => {
+    const client = {
+      emit: () => { },
+      on: () => { },
+    };
+    const emit = sinon.stub(client, 'emit');
+    const message1 = { type: 'lap', message: 'hello' };
+    const message2 = { type: 'time', message: 'goodbye' };
+
+    send([message1, message2]);
+
+    connect(client);
+
+    assert(emit.calledWith('backlog', { events: [message1] }));
   });
 
   it('on connect registers disconnect handler', () => {
