@@ -8,7 +8,7 @@ describe('time of day event generator', () => {
   it('generate an event on first time of day', () => {
     const eventGenerator = eventGeneratorFactory.initialise();
 
-    const events = eventGenerator.generateFrom({ time: 1000 });
+    const events = eventGenerator({ time: 1000 });
 
     assert(events.length.should.equal(1));
     assert(events[0].time.should.equal(1000));
@@ -18,8 +18,8 @@ describe('time of day event generator', () => {
   it('generates an event when time of day changes', () => {
     const eventGenerator = eventGeneratorFactory.initialise();
 
-    eventGenerator.generateFrom({ time: 1000 });
-    const events = eventGenerator.generateFrom({ time: 1001 });
+    eventGenerator({ time: 1000 });
+    const events = eventGenerator({ time: 1001 });
 
     assert(events.length.should.equal(1));
     assert(events[0].time.should.equal(1001));
@@ -29,8 +29,8 @@ describe('time of day event generator', () => {
   it('does not generate an event when time of day does not change', () => {
     const eventGenerator = eventGeneratorFactory.initialise();
 
-    eventGenerator.generateFrom({ time: 1000 });
-    const events = eventGenerator.generateFrom({ time: 1000 });
+    eventGenerator({ time: 1000 });
+    const events = eventGenerator({ time: 1000 });
 
     assert(events.length.should.equal(0));
   });

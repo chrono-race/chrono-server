@@ -16,7 +16,7 @@ function startSession(allJson, eventPublisher) {
       const timeOfDay = timeOfDayParser.parse(curJson);
 
       const events = page1EventGenerator.generateFrom(gaps, page1);
-      const timeOfDayEvents = timeOfDayEventGenerator.generateFrom(timeOfDay);
+      const timeOfDayEvents = timeOfDayEventGenerator(timeOfDay);
       eventPublisher(events.concat(timeOfDayEvents));
     },
   };
