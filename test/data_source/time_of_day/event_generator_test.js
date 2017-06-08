@@ -12,6 +12,7 @@ describe('time of day event generator', () => {
 
     assert(events.length.should.equal(1));
     assert(events[0].time.should.equal(1000));
+    assert(events[0].type.should.equal('time'));
   });
 
   it('generates an event when time of day changes', () => {
@@ -22,6 +23,7 @@ describe('time of day event generator', () => {
 
     assert(events.length.should.equal(1));
     assert(events[0].time.should.equal(1001));
+    assert(events[0].type.should.equal('time'));
   });
 
   it('does not generate an event when time of day does not change', () => {

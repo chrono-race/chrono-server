@@ -6,7 +6,10 @@ function initialise() {
       if (lastTime === null || lastTime !== timeOfDay.time) {
         lastTime = timeOfDay.time;
         return [
-          { time: timeOfDay.time },
+          {
+            type: 'time',
+            time: timeOfDay.time,
+          },
         ];
       }
       return [];
