@@ -26,14 +26,14 @@ describe('page 1 event generator', () => {
     const page1 = {};
 
     const generator = page1EventGenerator.initialise();
-    const events = generator.generateFrom(gaps, page1);
+    const events = generator(gaps, page1);
 
     assert(events.should.be.empty);
   });
 
   it('emits nothing initially if neither page 1 nor gaps received but logs warning', () => {
     const generator = page1EventGenerator.initialise();
-    const events = generator.generateFrom(undefined, undefined);
+    const events = generator(undefined, undefined);
 
     assert(events.length.should.equal(0));
     assert(warn.calledWith('Neither page 1 nor gaps received yet'));
@@ -54,7 +54,7 @@ describe('page 1 event generator', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    const events = generator.generateFrom(undefined, page1);
+    const events = generator(undefined, page1);
 
     assert(events.length.should.equal(0));
     assert(warn.calledWith('Page 1 received but no gaps received yet'));
@@ -68,7 +68,7 @@ describe('page 1 event generator', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    const events = generator.generateFrom(gaps, undefined);
+    const events = generator(gaps, undefined);
 
     assert(events.length.should.equal(0));
     assert(warn.calledWith('Gaps received but no page 1 received yet'));
@@ -107,7 +107,7 @@ describe('page 1 event generator', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    const events = generator.generateFrom(gaps, page1);
+    const events = generator(gaps, page1);
 
     assert(events.length.should.equal(2));
 
@@ -149,10 +149,10 @@ describe('page 1 event generator', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    const events1 = generator.generateFrom(gaps, undefined);
+    const events1 = generator(gaps, undefined);
     assert(events1.length.should.equal(0));
 
-    const events2 = generator.generateFrom(undefined, page1);
+    const events2 = generator(undefined, page1);
     assert(events2.length.should.equal(1));
   });
 
@@ -176,10 +176,10 @@ describe('page 1 event generator', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    const events1 = generator.generateFrom(undefined, page1);
+    const events1 = generator(undefined, page1);
     assert(events1.length.should.equal(0));
 
-    const events2 = generator.generateFrom(gaps, undefined);
+    const events2 = generator(gaps, undefined);
     assert(events2.length.should.equal(1));
   });
 
@@ -209,8 +209,8 @@ describe('page 1 event generator', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(initialGaps, page1);
-    const events = generator.generateFrom(updatedGaps, undefined);
+    generator(initialGaps, page1);
+    const events = generator(updatedGaps, undefined);
 
     assert(events.length.should.equal(0));
   });
@@ -237,8 +237,8 @@ describe('page 1 event generator', () => {
     isChanged.returns(false);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, page1);
-    const events = generator.generateFrom(gaps, page1);
+    generator(gaps, page1);
+    const events = generator(gaps, page1);
 
     assert(events.length.should.equal(0));
   });
@@ -265,8 +265,8 @@ describe('page 1 event generator', () => {
     isChanged.returns(false);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, page1);
-    const events = generator.generateFrom(gaps, undefined);
+    generator(gaps, page1);
+    const events = generator(gaps, undefined);
 
     assert(events.length.should.equal(0));
   });
@@ -293,8 +293,8 @@ describe('page 1 event generator', () => {
     isChanged.returns(false);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, page1);
-    const events = generator.generateFrom(gaps, null);
+    generator(gaps, page1);
+    const events = generator(gaps, null);
 
     assert(events.length.should.equal(0));
   });
@@ -335,8 +335,8 @@ describe('page 1 event generator', () => {
       sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, initialPage1);
-    const events = generator.generateFrom(gaps, updatedPage1);
+    generator(gaps, initialPage1);
+    const events = generator(gaps, updatedPage1);
 
     assert(events.length.should.equal(1));
 
@@ -385,8 +385,8 @@ describe('page 1 event generator', () => {
       sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, initialPage1);
-    const events = generator.generateFrom(undefined, updatedPage1);
+    generator(gaps, initialPage1);
+    const events = generator(undefined, updatedPage1);
 
     assert(events.length.should.equal(1));
 
@@ -435,8 +435,8 @@ describe('page 1 event generator', () => {
       sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, initialPage1);
-    const events = generator.generateFrom(null, updatedPage1);
+    generator(gaps, initialPage1);
+    const events = generator(null, updatedPage1);
 
     assert(events.length.should.equal(1));
 
@@ -490,8 +490,8 @@ describe('page 1 event generator', () => {
       sinon.match({ driver: 'VAN', position: 4, s3Time: 45.678 })).returns(true);
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(initialGaps, initialPage1);
-    const events = generator.generateFrom(updatedGaps, updatedPage1);
+    generator(initialGaps, initialPage1);
+    const events = generator(updatedGaps, updatedPage1);
 
     assert(events.length.should.equal(1));
 
@@ -529,7 +529,7 @@ describe('page 1 event generator (integrated with isChanged)', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    const events = generator.generateFrom(gaps, page1);
+    const events = generator(gaps, page1);
 
     assert(events.length.should.equal(1));
     assert(events[0].driver.should.equal('VAN'));
@@ -557,8 +557,8 @@ describe('page 1 event generator (integrated with isChanged)', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, page1);
-    const events = generator.generateFrom(gaps, page1);
+    generator(gaps, page1);
+    const events = generator(gaps, page1);
 
     assert(events.length.should.equal(0));
   });
@@ -595,8 +595,8 @@ describe('page 1 event generator (integrated with isChanged)', () => {
     };
 
     const generator = page1EventGenerator.initialise();
-    generator.generateFrom(gaps, originalPage1);
-    const events = generator.generateFrom(gaps, updatedPage1);
+    generator(gaps, originalPage1);
+    const events = generator(gaps, updatedPage1);
 
     assert(events.length.should.equal(1));
     assert(events[0].driver.should.equal('VAN'));

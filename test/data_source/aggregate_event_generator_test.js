@@ -28,7 +28,7 @@ describe('lap message generator', () => {
   it('extracts drivers and initialises event generator', () => {
     const allJson = { all: 'json' };
     const drivers = [{ driver: 'VAN' }];
-    const generator = { generateFrom: () => { } };
+    const generator = sinon.stub();
 
     extractDrivers.withArgs(allJson).returns(drivers);
     initialise.returns(generator);
@@ -64,7 +64,7 @@ describe('lap message generator', () => {
     it('parses, generates events then publishes', () => {
       const allJson = { all: 'json' };
       const drivers = [{ driver: 'VAN' }];
-      const page1EventGenerator = { generateFrom: () => { } };
+      const page1EventGenerator = sinon.stub();
       const timeOfDayEventGenerator = sinon.stub();
       const curJson = { current: 'json' };
       const gaps = { gaps: [] };
@@ -73,7 +73,6 @@ describe('lap message generator', () => {
       const timeOfDay = { time: 1234 };
       const timeOfDayEvents = [{ event: 2 }];
 
-      const updateGenerator = sinon.stub(page1EventGenerator, 'generateFrom');
       const publisher = sinon.stub();
 
       extractDrivers.withArgs(allJson).returns(drivers);
@@ -84,7 +83,7 @@ describe('lap message generator', () => {
       parsePage1.withArgs(drivers, curJson).returns(page1);
       parseTimeOfDay.withArgs(curJson).returns(timeOfDay);
 
-      updateGenerator.withArgs(gaps, page1).returns(events);
+      page1EventGenerator.withArgs(gaps, page1).returns(events);
       timeOfDayEventGenerator.withArgs(timeOfDay).returns(timeOfDayEvents);
 
       const session = startSession(allJson, publisher);
