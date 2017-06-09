@@ -18,5 +18,27 @@ describe('race control message parser', () => {
 
     assert(raceControlMessages.message.should.equal('TURN 2 INCIDENT INVOLVING CARS 19 (MAS) AND 14 (ALO) NOTED - FORCING ANOTHER DRIVER OFF THE TRACK'));
   });
+
+  it('should return undefined in case of no message', () => {
+    const input = {
+      c: {
+        Race_1234: {
+        },
+      },
+    };
+
+    const raceControlMessages = raceControlMessageParser.parse(input);
+
+    assert.isUndefined(raceControlMessages.message, undefined);
+  });
+
+  it('should return undefined in case of no c block', () => {
+    const input = {
+    };
+
+    const raceControlMessages = raceControlMessageParser.parse(input);
+
+    assert.isUndefined(raceControlMessages.message, undefined);
+  });
 });
 
