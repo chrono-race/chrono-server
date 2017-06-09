@@ -5,21 +5,34 @@ import eventGeneratorFactory from '../../../src/data_source/race_control_message
 should();
 
 describe('race control message event generator', () => {
-  it('generate no events when no race control message', () => {
+  it('generates no events when no race control message', () => {
     const message = { };
-    const events = eventGeneratorFactory.initialise()(message);
+    const eventGenerator = eventGeneratorFactory.initialise();
+    const events = eventGenerator(message);
 
     assert(events.length.should.equal(0));
   });
 
-  it('generate an event on first race control message', () => {
+  it('generates an event on first race control message', () => {
     const message = {
       message: 'first message',
     };
-    const events = eventGeneratorFactory.initialise()(message);
+    const eventGenerator = eventGeneratorFactory.initialise();
+    const events = eventGenerator(message);
 
     assert(events.length.should.equal(1));
     assert(events[0].type.should.equal('race_control_message'));
     assert(events[0].message.should.equal('first message'));
+  });
+
+  it('does not generate an event when race control message does not change', () => {
+    const message = {
+      message: 'first message',
+    };
+    const eventGenerator = eventGeneratorFactory.initialise();
+    eventGenerator(message);
+    const events = eventGenerator(message);
+
+    assert(events.length.should.equal(0));
   });
 });
