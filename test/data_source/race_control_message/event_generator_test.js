@@ -16,6 +16,7 @@ describe('race control message event generator', () => {
   it('generates an event on first race control message', () => {
     const message = {
       message: 'first message',
+      timestamp: 1234,
     };
     const eventGenerator = eventGeneratorFactory.initialise();
     const events = eventGenerator(message);
@@ -23,6 +24,7 @@ describe('race control message event generator', () => {
     assert(events.length.should.equal(1));
     assert(events[0].type.should.equal('race_control_message'));
     assert(events[0].message.should.equal('first message'));
+    assert(events[0].timestamp.should.equal(1234));
   });
 
   it('does not generate an event when race control message does not change', () => {

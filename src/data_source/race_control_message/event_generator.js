@@ -7,6 +7,7 @@ function initialise() {
       return [{
         type: 'race_control_message',
         message: message.message,
+        timestamp: message.timestamp,
       }];
     }
     return [];

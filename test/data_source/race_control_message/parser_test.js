@@ -11,12 +11,14 @@ describe('race control message parser', () => {
         Race_1234: {
           M: 'TURN 2 INCIDENT INVOLVING CARS 19 (MAS) AND 14 (ALO) NOTED - FORCING ANOTHER DRIVER OFF THE TRACK',
         },
+        T: 11534983599006,
       },
     };
 
     const raceControlMessages = raceControlMessageParser.parse(input);
 
     assert(raceControlMessages.message.should.equal('TURN 2 INCIDENT INVOLVING CARS 19 (MAS) AND 14 (ALO) NOTED - FORCING ANOTHER DRIVER OFF THE TRACK'));
+    assert(raceControlMessages.timestamp.should.equal(11534983));
   });
 
   it('should return undefined in case of no message', () => {
