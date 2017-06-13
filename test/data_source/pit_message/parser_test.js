@@ -38,4 +38,28 @@ describe('pit message parser', () => {
 
     assert.throws(() => pitMessageParser.parse(drivers, input), 'Expected 3 drivers in x block but found 2');
   });
+
+  it('parses empty pit data as null', () => {
+    const singleDriver = [{
+      tla: 'VET',
+    }];
+    const input = {
+      x: {
+        Test_Race_1234: {
+          DR: [
+            {
+              X: ',15,20,,,0,89.771,92.926,0.0,M,,,',
+              TI: '5,3,3,',
+              PD: '',
+            },
+          ],
+        },
+      },
+    };
+
+    const pitData = pitMessageParser.parse(singleDriver, input);
+
+    assert(pitData.should.have.property('VET'));
+    assert.isNull(pitData.VET);
+  });
 });

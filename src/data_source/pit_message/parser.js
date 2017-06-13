@@ -10,7 +10,15 @@ function parse(drivers, input) {
   if (driversPitData.length !== drivers.length) {
     throw new Error(`Expected ${drivers.length} drivers in x block but found ${driversPitData.length}`);
   }
-  return null;
+
+  const pitData = { };
+
+  drivers.forEach((d, i) => {
+    // const driverPitData = driversPitData[i].PD;
+    pitData[d.tla] = null;
+  });
+
+  return pitData;
 }
 
 module.exports = { parse };
