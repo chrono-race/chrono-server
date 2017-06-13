@@ -7,8 +7,9 @@ should();
 describe('create driver pit data', () => {
   it('should return pit entry at end of first stint for 0,0', () => {
     const driverPitData = '0,0';
+    const tyreData = 'M';
 
-    const pd = createDriverPitData(driverPitData);
+    const pd = createDriverPitData(driverPitData, tyreData);
     assert(pd.currentStatus.should.equal('in pit'));
     assert(pd.should.have.property('stints'));
     assert(pd.stints.length.should.equal(1));

@@ -16,7 +16,11 @@ function parse(drivers, input) {
 
   drivers.forEach((d, i) => {
     const driverPitData = driversPitData[i].PD;
-    pitData[d.tla] = createDriverPitData(driverPitData);
+    const driverX = driversPitData[i].X;
+    const fields = driverX.split(',');
+    const tyreData = fields[9];
+
+    pitData[d.tla] = createDriverPitData(driverPitData, tyreData);
   });
 
   return pitData;

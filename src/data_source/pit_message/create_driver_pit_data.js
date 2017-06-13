@@ -1,4 +1,4 @@
-function createDriverPitData(driverPitData) {
+function createDriverPitData(driverPitData, tyreData) {
   if (driverPitData === '') {
     return null;
   }
@@ -7,7 +7,7 @@ function createDriverPitData(driverPitData) {
     stints: [
       {
         startLap: 1,
-        tyre: 'M',
+        tyre: tyreData,
       },
     ],
   };
