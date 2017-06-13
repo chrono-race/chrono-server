@@ -39,7 +39,7 @@ describe('pit message parser', () => {
     assert.throws(() => pitMessageParser.parse(drivers, input), 'Expected 3 drivers in x block but found 2');
   });
 
-  it('parses empty pit data as null', () => {
+  it('parses empty pit data as null data for driver', () => {
     const singleDriver = [{
       tla: 'VET',
     }];
@@ -61,5 +61,33 @@ describe('pit message parser', () => {
 
     assert(pitData.should.have.property('VET'));
     assert.isNull(pitData.VET);
+  });
+
+  it('parses 0,0 as pit entry at end of first stint', () => {
+    const singleDriver = [{
+      tla: 'VET',
+    }];
+    const input = {
+      x: {
+        Test_Race_1234: {
+          DR: [
+            {
+              X: ',15,20,,,0,89.771,92.926,0.0,M,,,',
+              TI: '5,3,3,',
+              PD: '0,0',
+            },
+          ],
+        },
+      },
+    };
+
+    const pitData = pitMessageParser.parse(singleDriver, input);
+
+    assert(pitData.should.have.property('VET'));
+    assert(pitData.VET.currentStatus.should.equal('in pit'));
+    assert(pitData.VET.should.have.property('stints'));
+    assert(pitData.VET.stints.length.should.equal(1));
+    assert(pitData.VET.stints[0].startLap.should.equal(1));
+    assert(pitData.VET.stints[0].tyre.should.equal('M'));
   });
 });
