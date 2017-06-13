@@ -1,23 +1,5 @@
 import findSessionBlock from '../page1/find_session_block';
-
-function createDriverPitData(driverPitData) {
-  if (driverPitData === '') {
-    return null;
-  }
-  const pd = {
-    currentStatus: '',
-    stints: [
-      {
-        startLap: 1,
-        tyre: 'M',
-      },
-    ],
-  };
-  if (driverPitData === '0,0') {
-    pd.currentStatus = 'in pit';
-  }
-  return pd;
-}
+import createDriverPitData from './create_driver_pit_data';
 
 function parse(drivers, input) {
   if (input.x === undefined) {
