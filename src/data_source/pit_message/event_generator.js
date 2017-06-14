@@ -20,7 +20,6 @@ function initialise() {
       .map(driver => createDriverPitMessage(driver, pitData[driver], lastPitData[driver]))
       .filter(e => e !== null);
     Object.keys(pitData)
-      .filter(driver => pitData[driver] !== null)
       .forEach((driver) => { lastPitData[driver] = pitData[driver]; });
     return events;
   };

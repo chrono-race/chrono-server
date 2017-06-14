@@ -39,7 +39,7 @@ describe('pit message parser', () => {
     assert.throws(() => pitMessageParser.parse(drivers, input), 'Expected 3 drivers in x block but found 2');
   });
 
-  it('parses empty pit data as null data for driver', () => {
+  it('parses empty pit data as missing data for driver', () => {
     const singleDriver = [{
       tla: 'VET',
     }];
@@ -59,8 +59,7 @@ describe('pit message parser', () => {
 
     const pitData = pitMessageParser.parse(singleDriver, input);
 
-    assert(pitData.should.have.property('VET'));
-    assert.isNull(pitData.VET);
+    assert(pitData.should.not.have.property('VET'));
   });
 
   it('parses 0,0 as pit entry at end of first stint', () => {

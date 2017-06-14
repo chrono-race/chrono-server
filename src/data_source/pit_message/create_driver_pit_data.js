@@ -10,9 +10,6 @@ function toPitPairs(fields) {
 }
 
 function createDriverPitData(driverPitData, tyreData) {
-  if (driverPitData === '') {
-    return null;
-  }
   const pitPairs = toPitPairs(driverPitData.split(','));
   const pd = {
     currentStatus: '',

@@ -20,7 +20,9 @@ function parse(drivers, input) {
     const fields = driverX.split(',');
     const tyreData = fields[9];
 
-    pitData[d.tla] = createDriverPitData(driverPitData, tyreData);
+    if (driverPitData !== '') {
+      pitData[d.tla] = createDriverPitData(driverPitData, tyreData);
+    }
   });
 
   return pitData;
