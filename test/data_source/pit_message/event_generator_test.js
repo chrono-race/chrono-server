@@ -39,4 +39,25 @@ describe('page 1 event generator', () => {
     assert(events[0].stints[0].startLap.should.equal(1));
     assert(events[0].stints[0].tyre.should.equal('S'));
   });
+
+  it('does not output message when pit data for a driver is repeated', () => {
+    const eventGenerator = eventGeneratorFactory.initialise();
+
+    const pitData = {
+      VET: {
+        currentStatus: '',
+        stints: [
+          {
+            startLap: 1,
+            tyre: 'S',
+          },
+        ],
+      },
+    };
+
+    eventGenerator(pitData);
+    const events = eventGenerator(pitData);
+
+    assert(events.length.should.equal(0));
+  });
 });
