@@ -23,7 +23,7 @@ function createDriverPitData(driverPitData, tyreData) {
     pitPairs.splice(pitPairs.length - 1, 1);
   }
 
-  pitPairs.splice(0, 0, { lap: 0 });
+  pitPairs.splice(0, 0, { lap: -1 });
 
   pd.stints = pitPairs.map((p, i) => ({
     startLap: p.lap + 1,  // start lap is pit lap + 1

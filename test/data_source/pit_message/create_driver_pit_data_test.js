@@ -13,7 +13,7 @@ describe('create driver pit data', () => {
     assert(pd.currentStatus.should.equal('in pit'));
     assert(pd.should.have.property('stints'));
     assert(pd.stints.length.should.equal(1));
-    assert(pd.stints[0].startLap.should.equal(1));
+    assert(pd.stints[0].startLap.should.equal(0));
     assert(pd.stints[0].tyre.should.equal('M'));
   });
 
@@ -25,7 +25,7 @@ describe('create driver pit data', () => {
     assert(pd.currentStatus.should.equal(''));
     assert(pd.should.have.property('stints'));
     assert(pd.stints.length.should.equal(2));
-    assert(pd.stints[0].startLap.should.equal(1));
+    assert(pd.stints[0].startLap.should.equal(0));
     assert(pd.stints[0].tyre.should.equal('M'));
     assert(pd.stints[1].startLap.should.equal(8));
     assert(pd.stints[1].tyre.should.equal('S'));
@@ -39,7 +39,7 @@ describe('create driver pit data', () => {
     assert(pd.currentStatus.should.equal(''));
     assert(pd.should.have.property('stints'));
     assert(pd.stints.length.should.equal(3));
-    assert(pd.stints[0].startLap.should.equal(1));
+    assert(pd.stints[0].startLap.should.equal(0));
     assert(pd.stints[0].tyre.should.equal('M'));
     assert(pd.stints[1].startLap.should.equal(8));
     assert(pd.stints[1].tyre.should.equal('S'));
@@ -55,7 +55,7 @@ describe('create driver pit data', () => {
     assert(pd.currentStatus.should.equal(''));
     assert(pd.should.have.property('stints'));
     assert(pd.stints.length.should.equal(2));
-    assert(pd.stints[0].startLap.should.equal(1));
+    assert(pd.stints[0].startLap.should.equal(0));
     assert(pd.stints[0].tyre.should.equal('M'));
     assert(pd.stints[1].startLap.should.equal(8));
     assert(pd.stints[1].tyre.should.equal('S'));

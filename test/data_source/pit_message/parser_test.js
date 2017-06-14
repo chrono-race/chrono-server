@@ -87,7 +87,7 @@ describe('pit message parser', () => {
     assert(pitData.VET.currentStatus.should.equal('in pit'));
     assert(pitData.VET.should.have.property('stints'));
     assert(pitData.VET.stints.length.should.equal(1));
-    assert(pitData.VET.stints[0].startLap.should.equal(1));
+    assert(pitData.VET.stints[0].startLap.should.equal(0));
     assert(pitData.VET.stints[0].tyre.should.equal('M'));
   });
 });
