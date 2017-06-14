@@ -16,4 +16,18 @@ describe('create driver pit data', () => {
     assert(pd.stints[0].startLap.should.equal(1));
     assert(pd.stints[0].tyre.should.equal('M'));
   });
+
+  it('should create second stint with both tyres', () => {
+    const driverPitData = '315000,7,';
+    const tyreData = 'SM';
+
+    const pd = createDriverPitData(driverPitData, tyreData);
+    assert(pd.currentStatus.should.equal(''));
+    assert(pd.should.have.property('stints'));
+    assert(pd.stints.length.should.equal(2));
+    assert(pd.stints[0].startLap.should.equal(1));
+    assert(pd.stints[0].tyre.should.equal('M'));
+    assert(pd.stints[1].startLap.should.equal(8));
+    assert(pd.stints[1].tyre.should.equal('S'));
+  });
 });
