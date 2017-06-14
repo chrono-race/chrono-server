@@ -27,7 +27,7 @@ function createDriverPitData(driverPitData, tyreData) {
 
   pd.stints = pitPairs.map((p, i) => ({
     startLap: p.lap + 1,  // start lap is pit lap + 1
-    tyre: tyreData[tyreData.length - 1 - i],
+    tyre: tyreData[tyreData.length - 1 - i] || '',
   }));
 
   return pd;
