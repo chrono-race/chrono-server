@@ -89,4 +89,36 @@ describe('pit message parser', () => {
     assert(pitData.VET.stints[0].startLap.should.equal(0));
     assert(pitData.VET.stints[0].tyre.should.equal('M'));
   });
+
+  it('parses single pair as two stints', () => {
+    const singleDriver = [{
+      tla: 'VET',
+    }];
+    const input = {
+      x: {
+        Test_Race_1234: {
+          DR: [
+            {
+              X: ',15,20,,,0,89.771,92.926,0.0,SM,,,',
+              TI: '5,3,3,',
+              PD: '315000,7',
+            },
+          ],
+        },
+      },
+    };
+
+    const pitData = pitMessageParser.parse(singleDriver, input);
+
+    assert(pitData.should.have.property('VET'));
+    assert(pitData.VET.currentStatus.should.equal(''));
+    assert(pitData.VET.should.have.property('stints'));
+    assert(pitData.VET.stints.length.should.equal(2));
+    assert(pitData.VET.stints[0].startLap.should.equal(0));
+    assert(pitData.VET.stints[0].tyre.should.equal('M'));
+    assert(pitData.VET.stints[0].pitLaneTime.should.be.NaN);
+    assert(pitData.VET.stints[1].startLap.should.equal(8));
+    assert(pitData.VET.stints[1].tyre.should.equal('S'));
+    assert(pitData.VET.stints[1].pitLaneTime.should.equal(31.5));
+  });
 });
