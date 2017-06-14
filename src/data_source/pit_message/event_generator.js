@@ -1,6 +1,7 @@
 
 function createDriverPitMessage(driver, driverPitData, lastPitData) {
-  if (JSON.stringify(driverPitData) === JSON.stringify(lastPitData)) {
+  if (driverPitData === null ||
+      JSON.stringify(driverPitData) === JSON.stringify(lastPitData)) {
     return null;
   }
   return Object.assign({
@@ -10,7 +11,7 @@ function createDriverPitMessage(driver, driverPitData, lastPitData) {
 }
 
 function initialise() {
-  let lastPitData = { };
+  const lastPitData = { };
   return (pitData) => {
     if (pitData === null) {
       return [];
@@ -18,7 +19,9 @@ function initialise() {
     const events = Object.keys(pitData)
       .map(driver => createDriverPitMessage(driver, pitData[driver], lastPitData[driver]))
       .filter(e => e !== null);
-    lastPitData = pitData;
+    Object.keys(pitData)
+      .filter(driver => pitData[driver] !== null)
+      .forEach((driver) => { lastPitData[driver] = pitData[driver]; });
     return events;
   };
 }

@@ -60,4 +60,41 @@ describe('page 1 event generator', () => {
 
     assert(events.length.should.equal(0));
   });
+
+  it('does not output message when pit data is null', () => {
+    const eventGenerator = eventGeneratorFactory.initialise();
+
+    const partialPitData = {
+      VET: null,
+    };
+
+    const events = eventGenerator(partialPitData);
+
+    assert(events.length.should.equal(0));
+  });
+
+  it('does not output message when pit data for a driver is repeated with null in between', () => {
+    const eventGenerator = eventGeneratorFactory.initialise();
+
+    const pitData = {
+      VET: {
+        currentStatus: '',
+        stints: [
+          {
+            startLap: 1,
+            tyre: 'S',
+          },
+        ],
+      },
+    };
+    const partialPitData = {
+      VET: null,
+    };
+
+    eventGenerator(pitData);
+    eventGenerator(partialPitData);
+    const events = eventGenerator(pitData);
+
+    assert(events.length.should.equal(0));
+  });
 });
