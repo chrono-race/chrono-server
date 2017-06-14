@@ -29,6 +29,7 @@ function createDriverPitData(driverPitData, tyreData) {
     startLap: p.lap + 1,  // start lap is pit lap + 1
     tyre: tyreData[tyreData.length - 1 - i] || '',
     pitLaneTime: p.time,
+    tyreAge: 0,
   }));
 
   return pd;
