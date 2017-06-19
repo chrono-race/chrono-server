@@ -28,7 +28,7 @@ function createDriverPitData(driverPitData, tyreData, tyreInfo) {
   };
   const pitTriplets = toPitTriplets(tyreInfo.split(','));
 
-  if (pitPairs[pitPairs.length - 1].lap === 0) {
+  if (pitPairs.length > 0 && pitPairs[pitPairs.length - 1].lap === 0) {
     pd.currentStatus = 'in pit';
     pitPairs.splice(pitPairs.length - 1, 1);
   }
