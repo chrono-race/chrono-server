@@ -88,6 +88,7 @@ describe('pit message parser', () => {
     assert(pitData.VET.stints.length.should.equal(1));
     assert(pitData.VET.stints[0].startLap.should.equal(0));
     assert(pitData.VET.stints[0].tyre.should.equal('M'));
+    assert(pitData.VET.stints[0].tyreAge.should.equal(0));
   });
 
   it('parses single pair as two stints', () => {
