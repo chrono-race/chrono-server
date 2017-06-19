@@ -5,6 +5,21 @@ import createDriverPitData from '../../../src/data_source/pit_message/create_dri
 should();
 
 describe('create driver pit data', () => {
+  it('should create default first stint when no data', () => {
+    const driverPitData = '';
+    const tyreData = '';
+    const tyreInfo = '';
+
+    const pd = createDriverPitData(driverPitData, tyreData, tyreInfo);
+    assert(pd.currentStatus.should.equal(''));
+    assert(pd.should.have.property('stints'));
+    assert(pd.stints.length.should.equal(1));
+    assert(pd.stints[0].startLap.should.equal(0));
+    assert(pd.stints[0].tyre.should.equal(''));
+    assert(pd.stints[0].pitLaneTime.should.be.NaN);
+    assert(pd.stints[0].tyreAge.should.be.NaN);
+  });
+
   it('should assign initial tyre type and age', () => {
     const driverPitData = '';
     const tyreData = 'M';
