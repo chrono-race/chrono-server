@@ -39,7 +39,7 @@ describe('pit message parser', () => {
     assert.throws(() => pitMessageParser.parse(drivers, input), 'Expected 3 drivers in x block but found 2');
   });
 
-  it('parses empty pit data as missing data for driver', () => {
+  it('parses empty pit data as single stint for driver', () => {
     const singleDriver = [{
       tla: 'VET',
     }];
@@ -59,7 +59,13 @@ describe('pit message parser', () => {
 
     const pitData = pitMessageParser.parse(singleDriver, input);
 
-    assert(pitData.should.not.have.property('VET'));
+    assert(pitData.should.have.property('VET'));
+    assert(pitData.VET.currentStatus.should.equal(''));
+    assert(pitData.VET.should.have.property('stints'));
+    assert(pitData.VET.stints.length.should.equal(1));
+    assert(pitData.VET.stints[0].startLap.should.equal(0));
+    assert(pitData.VET.stints[0].tyre.should.equal('M'));
+    assert(pitData.VET.stints[0].tyreAge.should.equal(0));
   });
 
   it('parses 0,0 as pit entry at end of first stint', () => {

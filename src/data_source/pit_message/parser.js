@@ -21,9 +21,7 @@ function parse(drivers, input) {
     const tyreData = fields[9];
     const tyreInfo = driversPitData[i].TI;
 
-    if (driverPitData !== '') {
-      pitData[d.tla] = createDriverPitData(driverPitData, tyreData, tyreInfo);
-    }
+    pitData[d.tla] = createDriverPitData(driverPitData, tyreData, tyreInfo);
   });
 
   return pitData;
