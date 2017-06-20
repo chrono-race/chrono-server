@@ -27,7 +27,9 @@ function startSession(allJson, eventPublisher) {
       const timeOfDayEvents = timeOfDayEventGenerator(timeOfDay);
       const raceControlMessageEvents = raceControlMessageEventGenerator(raceControlMessage);
       const pitMessageEvents = pitMessageEventGenerator(pitMessage);
-      eventPublisher(events.concat(timeOfDayEvents).concat(raceControlMessageEvents).concat(pitMessageEvents));
+      eventPublisher(events.concat(timeOfDayEvents)
+        .concat(raceControlMessageEvents)
+        .concat(pitMessageEvents));
     },
   };
 }

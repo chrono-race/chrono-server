@@ -1,6 +1,6 @@
 function toPitPairs(fields) {
   const pairs = [];
-  for (let i = 0; i < Math.floor(fields.length / 2); i++) {
+  for (let i = 0; i < Math.floor(fields.length / 2); i++) { // eslint-disable-line no-plusplus
     pairs.push({
       time: parseInt(fields[i * 2], 10) / 10000,
       lap: parseInt(fields[(i * 2) + 1], 10),
@@ -11,7 +11,7 @@ function toPitPairs(fields) {
 
 function toPitTriplets(fields) {
   const triplets = [];
-  for (let i = 0; i < Math.floor(fields.length / 3); i++) {
+  for (let i = 0; i < Math.floor(fields.length / 3); i++) { // eslint-disable-line no-plusplus
     triplets.push({
       tyreType: parseInt(fields[i * 3], 10),
       ageInStint: parseInt(fields[(i * 3) + 1], 10),
