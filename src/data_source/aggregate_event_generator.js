@@ -33,10 +33,11 @@ function startSession(allJson, eventPublisher) {
       const raceControlMessageEvents = raceControlMessageEventGenerator(raceControlMessage);
       const pitMessageEvents = pitMessageEventGenerator(pitMessage);
       const raceNameEvents = raceNameEventGenerator(raceName);
+
       eventPublisher(events.concat(timeOfDayEvents)
-                           .concat(raceControlMessageEvents)
-                           .concat(pitMessageEvents)
-                           .concat(raceNameEvents));
+       .concat(raceControlMessageEvents)
+       .concat(pitMessageEvents)
+       .concat(raceNameEvents));
     },
   };
 }
