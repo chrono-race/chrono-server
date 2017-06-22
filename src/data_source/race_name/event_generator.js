@@ -1,13 +1,13 @@
 
 function initialise() {
-  let lastRacename = null;
-  return (racename) => {
-    if (lastRacename === null || lastRacename !== racename.name) {
-      lastRacename = racename.name;
+  let lastRaceName = null;
+  return (raceName) => {
+    if (lastRaceName === null || lastRaceName !== raceName.name) {
+      lastRaceName = raceName.name;
       return [
         {
-          type: 'racename',
-          name: racename.name,
+          type: 'race_name',
+          name: raceName.name,
         },
       ];
     }
