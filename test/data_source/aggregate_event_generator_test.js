@@ -44,10 +44,10 @@ describe('lap message generator', () => {
 
     assert(extractDrivers.calledOnce);
     assert(initialise.calledOnce);
-    assert(eventPublisher.calledWith({
+    assert(eventPublisher.calledWith([{
       type: 'drivers',
       drivers,
-    }));
+    }]));
   });
 
   describe('on update', () => {

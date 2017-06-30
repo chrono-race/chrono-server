@@ -1,9 +1,9 @@
 
 function generateDriverEvent(drivers) {
-  return {
+  return [{
     type: 'drivers',
     drivers,
-  };
+  }];
 }
 
 export default generateDriverEvent;
