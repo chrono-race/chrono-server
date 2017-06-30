@@ -1,4 +1,5 @@
 import driverParser from './page1/driver_parser';
+import driverEventGenerator from './page1/driver_event_generator';
 import gapsParser from './page1/gaps_parser';
 import page1Parser from './page1/parser';
 import eventGeneratorFactory from './page1/event_generator';
@@ -18,6 +19,8 @@ function startSession(allJson, eventPublisher) {
   const raceNameEventGenerator = raceNameEventGeneratorFactory.initialise();
   const raceControlMessageEventGenerator = raceControlMessageEventGeneratorFactory.initialise();
   const pitMessageEventGenerator = pitMessageEventGeneratorFactory.initialise();
+
+  eventPublisher(driverEventGenerator(drivers));
 
   const raceName = raceNameParser.parse(allJson);
   return {

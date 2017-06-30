@@ -31,18 +31,23 @@ describe('lap message generator', () => {
     initialise.restore();
   });
 
-  it('extracts drivers and initialises event generator', () => {
+  it('extracts drivers, initialises event generator and sends drivers event', () => {
     const allJson = { all: 'json' };
-    const drivers = [{ driver: 'VAN' }];
+    const drivers = [{ tla: 'VAN', color: '#ffffff' }];
     const generator = sinon.stub();
+    const eventPublisher = sinon.stub();
 
     extractDrivers.withArgs(allJson).returns(drivers);
     initialise.returns(generator);
 
-    startSession(allJson);
+    startSession(allJson, eventPublisher);
 
     assert(extractDrivers.calledOnce);
     assert(initialise.calledOnce);
+    assert(eventPublisher.calledWith({
+      type: 'drivers',
+      drivers,
+    }));
   });
 
   describe('on update', () => {
