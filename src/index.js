@@ -18,11 +18,30 @@ function onEvents(events) {
   }
 }
 
+const connectTime = config.connectAt === undefined ? undefined : Date.parse(config.connectAt);
+
+function checkIfTimeToConnect(timeToConnect, fulfill) {
+  const timeRemaining = Math.floor((timeToConnect - new Date()) / 1000);
+  if (timeRemaining > 0) {
+    onEvents([{ type: 'waiting', remainingSec: timeRemaining }]);
+    setTimeout(() => checkIfTimeToConnect(timeToConnect, fulfill), 1000);
+  } else {
+    fulfill();
+  }
+}
+
+function waitToConnect() {
+  return new Promise((fulfill) => {
+    checkIfTimeToConnect(connectTime, fulfill);
+  });
+}
+
 winston.add(winston.transports.File, { filename: 'logs/timing.log' });
 winston.info('timing process started');
 
 const a = archiver();
-dataDownloader.initialise(baseUrl, a, onEvents)
+waitToConnect()
+  .then(() => dataDownloader.initialise(baseUrl, a, onEvents))
   .then(() => {
     winston.info('timing process initialised');
   });

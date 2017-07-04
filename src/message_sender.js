@@ -13,7 +13,7 @@ export const connect = (socket) => {
 };
 
 export const send = (messages) => {
-  backlog = backlog.concat(messages.filter(m => m.type !== 'time'));
+  backlog = backlog.concat(messages.filter(m => m.type !== 'time' && m.type !== 'waiting'));
   listeners.forEach(socket => socket.emit('events', { events: messages }));
 };
 
