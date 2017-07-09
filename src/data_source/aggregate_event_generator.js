@@ -5,8 +5,8 @@ import page1Parser from './page1/parser';
 import eventGeneratorFactory from './page1/event_generator';
 import timeOfDayParser from './time_of_day/parser';
 import timeOfDayEventGeneratorFactory from './time_of_day/event_generator';
-import raceNameParser from './race_name/parser';
-import raceNameEventGeneratorFactory from './race_name/event_generator';
+import raceMetaDataParser from './race_meta_data/parser';
+import raceMetaDataEventGeneratorFactory from './race_meta_data/event_generator';
 import raceControlMessageParser from './race_control_message/parser';
 import raceControlMessageEventGeneratorFactory from './race_control_message/event_generator';
 import pitMessageParser from './pit_message/parser';
@@ -16,13 +16,13 @@ function startSession(allJson, eventPublisher) {
   const drivers = driverParser.extractDrivers(allJson);
   const page1EventGenerator = eventGeneratorFactory.initialise();
   const timeOfDayEventGenerator = timeOfDayEventGeneratorFactory.initialise();
-  const raceNameEventGenerator = raceNameEventGeneratorFactory.initialise();
+  const raceNameEventGenerator = raceMetaDataEventGeneratorFactory.initialise();
   const raceControlMessageEventGenerator = raceControlMessageEventGeneratorFactory.initialise();
   const pitMessageEventGenerator = pitMessageEventGeneratorFactory.initialise();
 
   eventPublisher(driverEventGenerator(drivers));
 
-  const raceName = raceNameParser.parse(allJson);
+  const raceName = raceMetaDataParser.parse(allJson);
   return {
     update: (curJson) => {
       const gaps = gapsParser.parse(drivers, curJson);
