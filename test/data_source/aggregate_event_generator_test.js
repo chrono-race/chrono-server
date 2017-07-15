@@ -8,8 +8,8 @@ import page1Parser from '../../src/data_source/page1/parser';
 import { startSession } from '../../src/data_source/aggregate_event_generator';
 import timeOfDayParser from '../../src/data_source/time_of_day/parser';
 import timeOfDayEventGeneratorFactory from '../../src/data_source/time_of_day/event_generator';
-import raceNameParser from '../../src/data_source/race_name/parser';
-import raceNameEventGeneratorFactory from '../../src/data_source/race_name/event_generator';
+import raceMetaDataParser from '../../src/data_source/race_meta_data/parser';
+import raceMetaDataEventGeneratorFactory from '../../src/data_source/race_meta_data/event_generator';
 import raceControlMessageParser from '../../src/data_source/race_control_message/parser';
 import raceControlMessageEventGeneratorFactory from '../../src/data_source/race_control_message/event_generator';
 import pitMessageParser from '../../src/data_source/pit_message/parser';
@@ -56,11 +56,11 @@ describe('lap message generator', () => {
     let parseTimeOfDay;
     let parseRaceControlMessage;
     let parsePitMessage;
-    let parseRacename;
+    let parseRaceMetaData;
     let timeOfDayFactory;
     let raceControlMessageFactory;
     let pitMessageFactory;
-    let raceNameFactory;
+    let raceMetaDataFactory;
 
     beforeEach(() => {
       parseGaps = sinon.stub(gapsParser, 'parse');
@@ -68,12 +68,12 @@ describe('lap message generator', () => {
       parseTimeOfDay = sinon.stub(timeOfDayParser, 'parse');
       parsePitMessage = sinon.stub(pitMessageParser, 'parse');
       parseRaceControlMessage = sinon.stub(raceControlMessageParser, 'parse');
-      parseRacename = sinon.stub(raceNameParser, 'parse');
+      parseRaceMetaData = sinon.stub(raceMetaDataParser, 'parse');
 
       timeOfDayFactory = sinon.stub(timeOfDayEventGeneratorFactory, 'initialise');
       raceControlMessageFactory = sinon.stub(raceControlMessageEventGeneratorFactory, 'initialise');
       pitMessageFactory = sinon.stub(pitMessageEventGeneratorFactory, 'initialise');
-      raceNameFactory = sinon.stub(raceNameEventGeneratorFactory, 'initialise');
+      raceMetaDataFactory = sinon.stub(raceMetaDataEventGeneratorFactory, 'initialise');
     });
 
     afterEach(() => {
@@ -82,12 +82,12 @@ describe('lap message generator', () => {
       parseTimeOfDay.restore();
       parseRaceControlMessage.restore();
       parsePitMessage.restore();
-      parseRacename.restore();
+      parseRaceMetaData.restore();
 
       timeOfDayFactory.restore();
       raceControlMessageFactory.restore();
       pitMessageFactory.restore();
-      raceNameFactory.restore();
+      raceMetaDataFactory.restore();
     });
 
     it('parses, generates events then publishes', () => {
@@ -108,8 +108,8 @@ describe('lap message generator', () => {
       const raceControlMessageEvents = [{ event: 3 }];
       const pitMessage = { pit: 'true' };
       const pitMessageEvents = [{ event: 4 }];
-      const raceName = { raceName: '1234' };
-      const raceNameEvents = [{ event: 5 }];
+      const raceMetaData = { raceName: '1234' };
+      const raceMetaDataEvents = [{ event: 5 }];
 
       const publisher = sinon.stub();
 
@@ -118,20 +118,20 @@ describe('lap message generator', () => {
       timeOfDayFactory.returns(timeOfDayEventGenerator);
       raceControlMessageFactory.returns(raceControlMessageGenerator);
       pitMessageFactory.returns(pitMessageGenerator);
-      raceNameFactory.returns(raceNameEventGenerator);
+      raceMetaDataFactory.returns(raceNameEventGenerator);
 
       parseGaps.withArgs(drivers, curJson).returns(gaps);
       parsePage1.withArgs(drivers, curJson).returns(page1);
       parseTimeOfDay.withArgs(curJson).returns(timeOfDay);
       parseRaceControlMessage.withArgs(curJson).returns(raceControlMessage);
       parsePitMessage.withArgs(drivers, curJson).returns(pitMessage);
-      parseRacename.withArgs(allJson).returns(raceName);
+      parseRaceMetaData.withArgs(allJson).returns(raceMetaData);
 
       page1EventGenerator.withArgs(gaps, page1).returns(events);
       timeOfDayEventGenerator.withArgs(timeOfDay).returns(timeOfDayEvents);
       raceControlMessageGenerator.withArgs(raceControlMessage).returns(raceControlMessageEvents);
       pitMessageGenerator.withArgs(pitMessage).returns(pitMessageEvents);
-      raceNameEventGenerator.withArgs(raceName).returns(raceNameEvents);
+      raceNameEventGenerator.withArgs(raceMetaData).returns(raceMetaDataEvents);
 
       const session = startSession(allJson, publisher);
       session.update(curJson);
