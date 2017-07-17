@@ -8,7 +8,8 @@
     "lint": "eslint **/*.js",
     "server": "babel-node src/index.js",
     "start": "forever start -c \"node -r babel-register\" --minUptime 1000 --spinSleepTime 1000 src/index.js",
-    "stop": "forever stop src/index.js"
+    "stop": "forever stop src/index.js",
+    "cache": "babel-node src/data_source/past_sessions/cache.js"
   },
   "author": "",
   "license": "ISC",
