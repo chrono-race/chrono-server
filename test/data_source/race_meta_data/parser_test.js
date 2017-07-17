@@ -57,7 +57,6 @@ describe('racename parser', () => {
     const raceMetaData = raceMetaDataParser.parse(input);
     assert(raceMetaData.name.should.equal('UNKNOWN'));
     assert(raceMetaData.totalLaps.should.equal(51));
-
   });
 
   it('should extract race name and total laps', () => {

@@ -17,7 +17,9 @@ function onEvents(events) {
   }
 }
 
-const connectTime = serverConfig.connectAt === undefined ? undefined : Date.parse(serverConfig.connectAt);
+const connectTime = serverConfig.connectAt === undefined
+  ? undefined
+  : Date.parse(serverConfig.connectAt);
 
 function checkIfTimeToConnect(timeToConnect, fulfill) {
   const timeRemaining = Math.floor((timeToConnect - new Date()) / 1000);

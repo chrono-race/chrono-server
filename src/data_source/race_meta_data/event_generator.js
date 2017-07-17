@@ -10,7 +10,8 @@ function initialise() {
       dataChanged = true;
     }
 
-    if (raceMetaData.totalLaps && (isNaN(lastTotalLaps) || lastTotalLaps !== raceMetaData.totalLaps)) {
+    if (raceMetaData.totalLaps && (isNaN(lastTotalLaps) ||
+        lastTotalLaps !== raceMetaData.totalLaps)) {
       lastTotalLaps = raceMetaData.totalLaps;
       dataChanged = true;
     }
