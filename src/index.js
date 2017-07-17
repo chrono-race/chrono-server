@@ -2,8 +2,9 @@ import winston from 'winston';
 import { send, connect } from './message_sender';
 import dataDownloader from './data_source/data_downloader';
 import archiver from './data_source/archiver';
+import listPastSessions from './data_source/past_sessions/list';
+import fetchSession from './data_source/past_sessions/fetch';
 import serverConfig from './server_config';
-
 
 const app = require('express')();
 const server = require('http').Server(app);
@@ -49,6 +50,16 @@ waitToConnect()
 
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
+});
+
+app.get('/sessions', (req, res) => {
+  res.send(JSON.stringify(listPastSessions()));
+});
+
+app.get('/sessions*', (req, res) => {
+  const session = req.url.substring('/sessions/'.length);
+  const events = fetchSession(session);
+  res.send(`${JSON.stringify(events)}`);
 });
 
 io.on('connection', connect);
