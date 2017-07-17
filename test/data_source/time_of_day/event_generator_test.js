@@ -34,4 +34,13 @@ describe('time of day event generator', () => {
 
     assert(events.length.should.equal(0));
   });
+
+  it('does not generate an event when no time of day', () => {
+    const eventGenerator = eventGeneratorFactory.initialise();
+
+    eventGenerator({ time: 1000 });
+    const events = eventGenerator({ });
+
+    assert(events.length.should.equal(0));
+  });
 });

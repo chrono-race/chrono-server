@@ -16,4 +16,15 @@ describe('time of day parser', () => {
 
     assert(timeOfDay.time.should.equal(11534623));
   });
+
+  it('extracts undefined in case of no source data', () => {
+    const input = {
+      sq: {
+      },
+    };
+
+    const timeOfDay = timeOfDayParser.parse(input);
+
+    assert(timeOfDay.time === undefined);
+  });
 });
