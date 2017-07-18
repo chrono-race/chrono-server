@@ -1,4 +1,5 @@
 import winston from 'winston';
+import fs from 'fs';
 import { send, connect } from './message_sender';
 import dataDownloader from './data_source/data_downloader';
 import archiver from './data_source/archiver';
@@ -57,9 +58,10 @@ app.get('/sessions', (req, res) => {
 });
 
 app.get('/sessions*', (req, res) => {
-  const session = req.url.substring('/sessions/'.length);
-  const events = fetchSession(session);
-  res.send(`${JSON.stringify(events)}`);
+  const sessionName = req.url.substring('/sessions/'.length);
+  const json = fs.readFileSync(`../sessions/${sessionName}.cache`);
+  res.setHeader('Content-Type', 'application/json');
+  res.send(json);
 });
 
 io.on('connection', connect);
