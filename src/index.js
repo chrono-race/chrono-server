@@ -54,6 +54,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/sessions', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(JSON.stringify(listPastSessions()));
 });
 
@@ -61,6 +62,7 @@ app.get('/sessions*', (req, res) => {
   const sessionName = req.url.substring('/sessions/'.length);
   const json = fs.readFileSync(`../sessions/${sessionName}.cache`);
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(json);
 });
 
